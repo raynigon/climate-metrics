@@ -22,6 +22,7 @@ jobs:
             apt install wget build-essential
             wget https://storage.googleapis.com/golang/go1.14.linux-armv6l.tar.gz
             tar -C /usr/local -xzf go1.14.linux-armv6l.tar.gz
+            /usr/local/go/bin/go get -v . 
             /usr/local/go/bin/go build -v . 
       - name: Upload artifact
         uses: actions/upload-artifact@master
@@ -43,6 +44,7 @@ jobs:
             apt install wget build-essential
             wget https://storage.googleapis.com/golang/go1.14.linux-armv7l.tar.gz
             tar -C /usr/local -xzf go1.14.linux-armv7l.tar.gz
+            /usr/local/go/bin/go get -v . 
             /usr/local/go/bin/go build -v . 
       - name: Upload artifact
         uses: actions/upload-artifact@master
