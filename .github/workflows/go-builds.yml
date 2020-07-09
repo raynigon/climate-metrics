@@ -22,7 +22,6 @@ jobs:
             apt install wget
             wget https://storage.googleapis.com/golang/go1.14.linux-armv6l.tar.gz
             tar -C /usr/local -xzf go1.14.linux-armv6l.tar.gz
-            rm go1.14.linux-armv6l.tar.gz
             /usr/local/go/bin/go build -v . 
       - name: Upload artifact
         uses: actions/upload-artifact@master
@@ -44,7 +43,6 @@ jobs:
             apt install wget
             wget https://storage.googleapis.com/golang/go1.14.linux-armv7l.tar.gz
             tar -C /usr/local -xzf go1.14.linux-armv7l.tar.gz
-            rm go1.14.linux-armv7l.tar.gz
             /usr/local/go/bin/go build -v . 
       - name: Upload artifact
         uses: actions/upload-artifact@master
@@ -56,15 +54,20 @@ jobs:
     needs: [armv6_job, armv7_job]
     steps:
     - uses: actions/checkout@master
-    - name: Create release
-      uses: Roang-zero1/github-create-release-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create GitHub release
-      uses: Roang-zero1/github-upload-release-artifacts-action@master
-      #with:
-      #  args:
-      #  - climate-metrics-armv6
-      #  - climate-metrics-armv7
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/download-artifact@v2
+      with:
+        name: climate-metrics-armv6
+    - uses: actions/download-artifact@v2
+      with:
+        name: climate-metrics-armv7
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.5
+      with:
+        # Creates a draft release. Defaults to false
+        draft: true
+        # Identify the release as a prerelease. Defaults to false
+        prerelease: true
+        # Newline-delimited list of path globs for asset files to upload
+        files: |
+          climate-metrics-armv6
+          climate-metrics-armv7
