@@ -2,7 +2,6 @@ name: Go
 
 on:
   push:
-    branches: [ master ]
     tags: [ v* ]
 
 jobs:
@@ -72,10 +71,6 @@ jobs:
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.5
       with:
-        # Creates a draft release. Defaults to false
-        draft: true
-        # Identify the release as a prerelease. Defaults to false
-        prerelease: true
         # Newline-delimited list of path globs for asset files to upload
         files: |
           climate-metrics-armv6
