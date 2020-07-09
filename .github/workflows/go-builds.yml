@@ -1,0 +1,49 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  armv6_job:
+    runs-on: ubuntu-20.04
+    name: Build on ARMv6
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: uraimo/run-on-arch-action@v1.0.9
+        id: runcmd
+        with:
+          architecture: armv6
+          distribution: buster
+          run: |
+            wget https://storage.googleapis.com/golang/go1.14.linux-armv6l.tar.gz
+            tar -C /usr/local -xzf go1.14.linux-armv6l.tar.gz
+            rm go1.14.linux-armv6l.tar.gz
+            /usr/local/go/bin/go build -v . 
+      - name: Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: climate-metrics-armv6
+          path: climate-metrics
+  armv7_job:
+    runs-on: ubuntu-20.04
+    name: Build on ARMv7 
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: uraimo/run-on-arch-action@v1.0.9
+        id: runcmd
+        with:
+          architecture: armv7
+          distribution: buster
+          run: |
+            wget https://storage.googleapis.com/golang/go1.14.linux-armv7l.tar.gz
+            tar -C /usr/local -xzf go1.14.linux-armv7l.tar.gz
+            rm go1.14.linux-armv7l.tar.gz
+            /usr/local/go/bin/go build -v . 
+      - name: Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: climate-metrics-armv7
+          path: climate-metrics
