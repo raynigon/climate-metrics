@@ -70,6 +70,8 @@ jobs:
         ls -lisa
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.5
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         # Newline-delimited list of path globs for asset files to upload
         files: |
