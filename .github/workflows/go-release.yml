@@ -67,7 +67,9 @@ jobs:
     - name: List details
       run: |
         ls -lisa
+        ls -lisa v6
         mv v6/climate-metrics climate-metrics-armv6
+        ls -lisa
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.5
       with:
