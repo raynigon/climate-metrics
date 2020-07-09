@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
+	"os/signal"
 	"time"
 
 	"github.com/raynigon/climate-metrics/dht"
@@ -12,7 +14,8 @@ import (
 
 type Configuration struct {
 	Input struct {
-		Gpio string `yaml:"gpio"`
+		Gpio            string  `yaml:"gpio"`
+		RefreshInterval float64 `yaml:"refreshInterval"`
 	} `yaml:"input"`
 	Output struct {
 		Url         string            `yaml:"url"`
@@ -76,16 +79,24 @@ func main() {
 		return
 	}
 
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		for sig := range c {
+			fmt.Println("Stop recording!\nReceived Signal:", sig)
+			os.Exit(1)
+		}
+	}()
+
 	fmt.Println("Start recording...")
 	start := time.Now().UnixNano()
 	for {
 		recordClimate(dht, client)
-		duration := float64(time.Now().UnixNano() - start)
-		sleeping := 15.0 - duration/1000000000.0
+		duration := float64(time.Now().UnixNano()-start) / 1000000000.0
+		sleeping := config.Input.RefreshInterval - duration
 		if sleeping > 0.1 {
 			time.Sleep(time.Duration(sleeping*1000) * time.Millisecond)
 		}
 		start = time.Now().UnixNano()
 	}
-	fmt.Println("Stop recording!")
 }

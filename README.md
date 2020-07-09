@@ -9,6 +9,7 @@ The Configuration is stored in a `config.yml` which has to be in the working dir
 ```yaml
 input:
     gpio: "GPIO2"
+    refreshInterval: 15 # in seconds
 output:
     url: "http://my-influx-db:8086"
     username: "my_influx_user"
