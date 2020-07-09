@@ -22,7 +22,13 @@ jobs:
         with:
           architecture: armv6
           distribution: buster
-          run: go build -v .
+          run: |
+            apt update
+            apt install -y wget
+            wget https://storage.googleapis.com/golang/go1.14.linux-armv6l.tar.gz
+            tar -C /usr/local -xzf go1.14.linux-armv6l.Ctar.gz
+            rm go1.14.linux-armv6l.tar.gz
+            /usr/local/go/bin/go build -v .
       - name: Get the output
         run: |
             echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
