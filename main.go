@@ -11,14 +11,14 @@ import (
 	"github.com/raynigon/climate-metrics/output"
 	"gopkg.in/yaml.v2"
 )
-
+// Configuration contains all config values
 type Configuration struct {
 	Input struct {
 		Gpio            string  `yaml:"gpio"`
 		RefreshInterval float64 `yaml:"refreshInterval"`
 	} `yaml:"input"`
 	Output struct {
-		Url         string            `yaml:"url"`
+		URL         string            `yaml:"url"`
 		Username    string            `yaml:"username"`
 		Password    string            `yaml:"password"`
 		Database    string            `yaml:"database"`
@@ -45,15 +45,24 @@ func readConfig() (Configuration, error) {
 }
 
 func createClient(config Configuration) *output.OutputClient {
-	return output.NewClient(config.Output.Url, config.Output.Username, config.Output.Password, config.Output.Database, config.Output.Measurement, config.Output.Tags)
+	return output.NewClient(config.Output.URL, config.Output.Username, config.Output.Password, config.Output.Database, config.Output.Measurement, config.Output.Tags)
 }
 
 func recordClimate(dht *dht.DHT, client *output.OutputClient) {
-	humidity, temperature, err := dht.ReadRetry(15)
-	if err != nil {
-		fmt.Println("Read error:", err)
-		return
+	samples := 3
+	humidity := 0.0
+	temperature := 0.0
+	for i := 0; i < samples; i++ {
+		_humidity, _temperature, err := dht.ReadRetry(15)
+		if err != nil {
+			fmt.Println("Read error:", err)
+			return
+		}
+		humidity += _humidity
+		temperature += _temperature
 	}
+	humidity /= float64(samples)
+	temperature /= float64(samples)
 	client.WritePoints(humidity, temperature)
 }
 
