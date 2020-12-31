@@ -1,6 +1,7 @@
 # Climate Metrics
 
 Records the current temperature and humidity (recorded by a DHT22 / AM2302 / DHT11 sensor)
+and writes it into an influxdb instance.
 
 ## Configuration
 
