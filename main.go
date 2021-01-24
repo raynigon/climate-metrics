@@ -82,7 +82,7 @@ func main() {
 		return
 	}
 
-	dht, err := dht.NewDHT("GPIO2", dht.Celsius, "")
+	dht, err := dht.NewDHT(config.Input.Gpio, dht.Celsius, "")
 	if err != nil {
 		fmt.Println("NewDHT error:", err)
 		return
