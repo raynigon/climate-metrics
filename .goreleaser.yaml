@@ -1,0 +1,55 @@
+project_name: climate-metrics
+release:
+  github:
+    owner: raynigon
+    name: climate-metrics
+builds:
+  - id: climate-metrics
+    goos:
+    - linux
+    - windows
+    - darwin
+    goarch:
+    - amd64
+    - "386"
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    main: climate-metrics.go
+    ldflags: -s -w
+      -X github.com/raynigon/climate-metrics/version.version={{.Version}}
+      -X github.com/raynigon/climate-metrics/version.gitSHA={{.Commit}}
+      -X github.com/raynigon/climate-metrics/version.buildTime={{.Date}}
+      -extldflags "-static"
+    flags: -tags netgo -installsuffix netgo
+    binary: climate-metrics
+    hooks: {}
+dockers:
+  - dockerfile: "./Dockerfile"
+    ids:
+      - climate-metrics
+    image_templates:
+    - "ghcr.io/raynigon/climate-metrics:latest"
+    - "ghcr.io/raynigon/climate-metrics:{{ .Tag }}"
+    - "ghcr.io/raynigon/climate-metrics:v{{ .Major }}"
+    - "ghcr.io/raynigon/auth0-exporter:latest"
+    - "ghcr.io/raynigon/auth0-exporter:{{ .Tag }}"
+    - "ghcr.io/raynigon/auth0-exporter:v{{ .Major }}"
+archives:
+  - id: climate-metrics
+    builds:
+      - climate-metrics
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .Binary }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - licence*
+      - LICENCE*
+      - license*
+      - LICENSE*
+      - readme*
+      - README*
+      - changelog*
+      - CHANGELOG*

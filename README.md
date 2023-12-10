@@ -1,25 +1,8 @@
 # Climate Metrics
 
-Records the current temperature and humidity (recorded by a DHT22 / AM2302 / DHT11 sensor)
-and writes it into an influxdb instance.
+[![GitHub Release](https://img.shields.io/github/release/raynigon/climate-metrics.svg?style=flat)](https://github.com/raynigon/climate-metrics/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/raynigon/climate-metrics/v2)](https://goreportcard.com/report/github.com/raynigon/github_billing_exporter/v2)
 
-## Configuration
+This exporter exposes [Prometheus](https://prometheus.io/) metrics from a DHT22 / AM2302 / DHT11 sensor connected via GPIO.
+The temperature and humidity metrics are provided.
 
-The Configuration is stored in a `config.yml` which has to be in the working directory of the application
-
-```yaml
-input:
-    gpio: "GPIO2"
-    refreshInterval: 15 # in seconds
-output:
-    url: "http://my-influx-db:8086"
-    username: "my_influx_user"
-    password: "my_influx_password"
-    database: "my_influx_database"
-    measurement: "measurement_name"
-    tags:
-        host: "tags which will be appended to each Point"
-```
-
-## Credits
-Sensor Code copied from: https://github.com/MichaelS11/go-dht
