@@ -23,9 +23,9 @@ func indexController(w http.ResponseWriter, r *http.Request, config config.Clima
 	w.Header().Add("Content-Type", "text/html")
 	w.WriteHeader(200)
 	_, _ = w.Write([]byte(`<html>
-		<head><title>Auth0 Exporter</title></head>
+		<head><title>Climate Metrics Exporter</title></head>
 		<body>
-		<h1>Auth0 Exporter</h1>
+		<h1>Climate Metrics Exporter</h1>
 		<p><a href="` + config.GetMetricsPath() + `">Metrics</a></p>
 		</body>
 		</html>`))

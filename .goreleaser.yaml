@@ -32,9 +32,6 @@ dockers:
     - "ghcr.io/raynigon/climate-metrics:latest"
     - "ghcr.io/raynigon/climate-metrics:{{ .Tag }}"
     - "ghcr.io/raynigon/climate-metrics:v{{ .Major }}"
-    - "ghcr.io/raynigon/auth0-exporter:latest"
-    - "ghcr.io/raynigon/auth0-exporter:{{ .Tag }}"
-    - "ghcr.io/raynigon/auth0-exporter:v{{ .Major }}"
 archives:
   - id: climate-metrics
     builds:
