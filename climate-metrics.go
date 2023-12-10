@@ -38,7 +38,7 @@ func registerCollectors(logger log.Logger, config collector.CollectorConfig) {
 	}
 
 	prometheus.MustRegister(collector)
-	prometheus.MustRegister(version.NewCollector("climate-metrics"))
+	prometheus.MustRegister(version.NewCollector("climate_metrics"))
 }
 
 func waitForTermination(logger log.Logger) {
