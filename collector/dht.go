@@ -28,7 +28,7 @@ func NewDhtCollector(config CollectorConfig, ctx context.Context) (Collector, er
 	if err != nil {
 		return nil, err
 	}
-	dht, err := dht.NewDHT(config.GPIO, dht.Fahrenheit, "11")
+	dht, err := dht.NewDHT(config.GPIO, dht.Celsius, "11")
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (c *DhtCollector) Reload(ctx context.Context) error {
 }
 
 func (c *DhtCollector) Update(ctx context.Context, ch chan<- prometheus.Metric) error {
-	temperature, humidity, err := c.dht.Read()
+	humidity, temperature, err := c.dht.ReadRetry(3)
 	if err != nil {
 		return err
 	}
